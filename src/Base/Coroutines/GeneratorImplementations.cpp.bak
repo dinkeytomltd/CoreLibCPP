@@ -1,0 +1,49 @@
+
+#include "System/Coroutines/Generator.hpp"
+#include "System/Coroutines/GeneratorExtensions.hpp"
+#include "System/Linq/Enumerable.hpp"
+#include "System/Linq/EnumerableWrapper.hpp"
+
+// Implementation of template specializations and non-template methods
+
+namespace System::Linq {
+
+    // Implementation of Generator integration methods declared in Enumerable.hpp
+    template<typename T>
+    EnumerableWrapper<T> Enumerable::From(System::Coroutines::Generator<T>&& generator) {
+        auto enumerable = std::make_shared<System::Coroutines::GeneratorEnumerable<T>>(std::move(generator));
+        return EnumerableWrapper<T>(enumerable);
+    }
+
+    template<typename T>
+    System::Coroutines::Generator<T> Enumerable::RangeGenerator(T start, int count) {
+        return System::Coroutines::GeneratorExtensions::Range(start, count);
+    }
+
+    template<typename T>
+    System::Coroutines::Generator<T> Enumerable::RepeatGenerator(T value, int count) {
+        return System::Coroutines::GeneratorExtensions::Repeat(value, count);
+    }
+
+    template<typename T>
+    System::Coroutines::Generator<T> Enumerable::EmptyGenerator() {
+        return System::Coroutines::GeneratorExtensions::Empty<T>();
+    }
+
+    // Explicit instantiations for common types
+    template EnumerableWrapper<int> Enumerable::From(System::Coroutines::Generator<int>&& generator);
+    template EnumerableWrapper<double> Enumerable::From(System::Coroutines::Generator<double>&& generator);
+    template EnumerableWrapper<std::string> Enumerable::From(System::Coroutines::Generator<std::string>&& generator);
+
+    template System::Coroutines::Generator<int> Enumerable::RangeGenerator(int start, int count);
+    template System::Coroutines::Generator<double> Enumerable::RangeGenerator(double start, int count);
+
+    template System::Coroutines::Generator<int> Enumerable::RepeatGenerator(int value, int count);
+    template System::Coroutines::Generator<double> Enumerable::RepeatGenerator(double value, int count);
+    template System::Coroutines::Generator<std::string> Enumerable::RepeatGenerator(std::string value, int count);
+
+    template System::Coroutines::Generator<int> Enumerable::EmptyGenerator();
+    template System::Coroutines::Generator<double> Enumerable::EmptyGenerator();
+    template System::Coroutines::Generator<std::string> Enumerable::EmptyGenerator();
+
+} // namespace System::Linq
