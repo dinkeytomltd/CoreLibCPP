@@ -1,0 +1,5 @@
+if(EXISTS "/home/ubuntu/CoreLib.Cpp/System.Drawing/build_test/tests/SystemDrawingTests[1]_tests.cmake")
+  include("/home/ubuntu/CoreLib.Cpp/System.Drawing/build_test/tests/SystemDrawingTests[1]_tests.cmake")
+else()
+  add_test(SystemDrawingTests_NOT_BUILT SystemDrawingTests_NOT_BUILT)
+endif()
