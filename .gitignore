@@ -76,3 +76,9 @@ Thumbs.db
 *.tmp
 *.temp
 *~
+
+# Core dumps
+core
+core.*
+*.core
+System.Drawing/third_party/skia/third_party/externals/swiftshader/
